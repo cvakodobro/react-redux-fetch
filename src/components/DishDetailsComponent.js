@@ -19,13 +19,15 @@ class DishDetails extends Component {
       return <div></div>;
     } else {
       return (
-        <Card>
-          <CardImg width='100%' src={dish.image} alt={dish.name} />
-          <CardBody>
-            <CardTitle>{dish.name}</CardTitle>
-            <CardText>{dish.description}</CardText>
-          </CardBody>
-        </Card>
+        <div className='col-12 col-md-5 m-1'>
+          <Card>
+            <CardImg width='100%' src={dish.image} alt={dish.name} />
+            <CardBody>
+              <CardTitle>{dish.name}</CardTitle>
+              <CardText>{dish.description}</CardText>
+            </CardBody>
+          </Card>
+        </div>
       );
     }
   }
@@ -35,23 +37,26 @@ class DishDetails extends Component {
       return <div></div>;
     } else {
       const commentslist = comments.map((comment) => {
-          let date=comment.date
-          let day=date.split('-')[2].substring(0,2)
-          let month=date.split('-')[1]
-          let year = date.split('-')[0]
         return (
           <li key={comment.id}>
             <p>{comment.comment}</p>
             <p>
-              --{comment.author}, {day}.{month}.{year}.
+              --{comment.author},{" "}
+              {new Intl.DateTimeFormat("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "2-digit",
+              }).format(new Date(Date.parse(comment.date)))}
             </p>
           </li>
         );
       });
       return (
-        <div>
+        <div className='col-12 col-md-5 m-1'>
           <h4>Comments</h4>
-          <ul style={{listStyleType:'none', padding:'0'}}>{commentslist}</ul>
+          <ul style={{ listStyleType: "none", padding: "0" }}>
+            {commentslist}
+          </ul>
         </div>
       );
     }
@@ -61,13 +66,13 @@ class DishDetails extends Component {
     if (this.props.dish == null) {
       return <div></div>;
     } else {
+      const dishItem = this.renderDish(this.props.dish);
+      const commentsItem = this.renderComments(this.props.dish.comments);
       return (
-        <div className='row justify-content-center'>
-          <div className='col-12 col-md-5'>
-            {this.renderDish(this.props.dish)}
-          </div>
-          <div className='col-12 col-md-5'>
-            {this.renderComments(this.props.dish.comments)}
+        <div className='container'>
+          <div className='row justify-content-center'>
+            {dishItem}
+            {commentsItem}
           </div>
         </div>
       );
