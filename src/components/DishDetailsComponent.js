@@ -60,7 +60,7 @@ import {
 
 const DishDetails = (props) => {
     if (props.dish == null) {
-      return <div></div>;
+      return (<div></div>);
     } else {
       return (
         <div className='container'>
