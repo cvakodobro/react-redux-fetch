@@ -17,6 +17,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from "react-redux-form";
+import { Loading } from "./LoadingComponent";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -182,7 +183,24 @@ class CommentForm extends Component {
 }
 
 const DishDetails = (props) => {
-  if (props.dish == null) {
+  if (props.isLoading) {
+    return (
+      <div className='container'>
+        <div className='row'>
+          <Loading />
+        </div>
+      </div>
+    );
+  } else if (props.errMess) {
+    return (
+      <div className='container'>
+        <div className='row'>
+          <h3>{props.errMess}</h3>
+        </div>
+      </div>
+    );
+  }
+  else if (props.dish == null) {
     return <div></div>;
   } else {
     return (
